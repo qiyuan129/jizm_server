@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jizm.dao.PeriodicMapper">
+  <resultMap id="BaseResultMap" type="com.example.jizm.model.Periodic">
+    <!--@mbg.generated-->
+    <!--@Table periodic-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="local_id" jdbcType="INTEGER" property="localId" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="cycle" jdbcType="INTEGER" property="cycle" />
+    <result column="start" jdbcType="DATE" property="start" />
+    <result column="end" jdbcType="DATE" property="end" />
+    <result column="money" jdbcType="DOUBLE" property="money" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, local_id, account_id, category_id, user_id, `type`, `name`, `cycle`, `start`, 
+    `end`, money
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from periodic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from periodic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.jizm.model.Periodic" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into periodic (local_id, account_id, category_id, 
+      user_id, `type`, `name`, 
+      `cycle`, `start`, `end`, money
+      )
+    values (#{localId,jdbcType=INTEGER}, #{accountId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{cycle,jdbcType=INTEGER}, #{start,jdbcType=DATE}, #{end,jdbcType=DATE}, #{money,jdbcType=DOUBLE}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.jizm.model.Periodic" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into periodic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="localId != null">
+        local_id,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="name != null">
+        `name`,
+      </if>
+      <if test="cycle != null">
+        `cycle`,
+      </if>
+      <if test="start != null">
+        `start`,
+      </if>
+      <if test="end != null">
+        `end`,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="localId != null">
+        #{localId,jdbcType=INTEGER},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cycle != null">
+        #{cycle,jdbcType=INTEGER},
+      </if>
+      <if test="start != null">
+        #{start,jdbcType=DATE},
+      </if>
+      <if test="end != null">
+        #{end,jdbcType=DATE},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.jizm.model.Periodic">
+    <!--@mbg.generated-->
+    update periodic
+    <set>
+      <if test="localId != null">
+        local_id = #{localId,jdbcType=INTEGER},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cycle != null">
+        `cycle` = #{cycle,jdbcType=INTEGER},
+      </if>
+      <if test="start != null">
+        `start` = #{start,jdbcType=DATE},
+      </if>
+      <if test="end != null">
+        `end` = #{end,jdbcType=DATE},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.jizm.model.Periodic">
+    <!--@mbg.generated-->
+    update periodic
+    set local_id = #{localId,jdbcType=INTEGER},
+      account_id = #{accountId,jdbcType=INTEGER},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      `type` = #{type,jdbcType=INTEGER},
+      `name` = #{name,jdbcType=VARCHAR},
+      `cycle` = #{cycle,jdbcType=INTEGER},
+      `start` = #{start,jdbcType=DATE},
+      `end` = #{end,jdbcType=DATE},
+      money = #{money,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
