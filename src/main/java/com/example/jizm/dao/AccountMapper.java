@@ -1,11 +1,7 @@
 package com.example.jizm.dao;
-import org.apache.ibatis.annotations.Param;
-import java.util.List;
 
-import com.example.jizm.model.Account;
-import org.apache.ibatis.annotations.Mapper;
+import com.example.jizm.model.Account;import org.apache.ibatis.annotations.Param;import java.util.List;
 
-@Mapper
 public interface AccountMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -19,7 +15,9 @@ public interface AccountMapper {
 
     int updateByPrimaryKey(Account record);
 
-    int insertList(@Param("list")List<Account> list);
+    int insertList(@Param("list") List<Account> list);
+
+    List<Account> selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
 
 
 }

@@ -14,6 +14,7 @@ public class User {
     @ApiModelProperty(value="用户电话号码")
     private String phone;
 
+    @ApiModelProperty(value="")
     private String email;
 
     @ApiModelProperty(value = "用户密码（加密）")

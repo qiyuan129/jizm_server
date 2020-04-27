@@ -4,19 +4,19 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
-@ApiModel(value="com-example-jizm-model-Bill")
+@ApiModel(value="账单对象，一个Bill对象对应一条收/支记录")
 public class Bill {
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="账单对象在服务器端数据库的id")
     private Integer id;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="账单对象在app端数据库的id")
     private Integer localId;
 
     @ApiModelProperty(value="")
-    private Integer accountId;
+    private Account account;
 
     @ApiModelProperty(value="")
-    private Integer categoryId;
+    private Category category;
 
     @ApiModelProperty(value="")
     private Integer userId;
@@ -32,6 +32,9 @@ public class Bill {
 
     @ApiModelProperty(value="")
     private Double money;
+
+    @ApiModelProperty(value="")
+    private Date modified;
 
     public Integer getId() {
         return id;
@@ -49,20 +52,20 @@ public class Bill {
         this.localId = localId;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public Integer getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Integer getUserId() {
@@ -103,5 +106,33 @@ public class Bill {
 
     public void setMoney(Double money) {
         this.money = money;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", localId=").append(localId);
+        sb.append(", accountId=").append(account.getId());
+        sb.append(", categoryId=").append(category.getId());
+        sb.append(", userId=").append(userId);
+        sb.append(", type=").append(type);
+        sb.append(", name=").append(name);
+        sb.append(", date=").append(date);
+        sb.append(", money=").append(money);
+        sb.append(", modified=").append(modified);
+        sb.append("]");
+        return sb.toString();
     }
 }

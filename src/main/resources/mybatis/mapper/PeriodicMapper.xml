@@ -15,11 +15,12 @@
     <result column="start" jdbcType="DATE" property="start" />
     <result column="end" jdbcType="DATE" property="end" />
     <result column="money" jdbcType="DOUBLE" property="money" />
+    <result column="modified" jdbcType="TIMESTAMP" property="modified" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, local_id, account_id, category_id, user_id, `type`, `name`, `cycle`, `start`, 
-    `end`, money
+    `end`, money, modified
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -37,12 +38,12 @@
     <!--@mbg.generated-->
     insert into periodic (local_id, account_id, category_id, 
       user_id, `type`, `name`, 
-      `cycle`, `start`, `end`, money
-      )
+      `cycle`, `start`, `end`, money, 
+      modified)
     values (#{localId,jdbcType=INTEGER}, #{accountId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, 
       #{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{cycle,jdbcType=INTEGER}, #{start,jdbcType=DATE}, #{end,jdbcType=DATE}, #{money,jdbcType=DOUBLE}
-      )
+      #{cycle,jdbcType=INTEGER}, #{start,jdbcType=DATE}, #{end,jdbcType=DATE}, #{money,jdbcType=DOUBLE}, 
+      #{modified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.jizm.model.Periodic" useGeneratedKeys="true">
     <!--@mbg.generated-->
@@ -78,6 +79,9 @@
       <if test="money != null">
         money,
       </if>
+      <if test="modified != null">
+        modified,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="localId != null">
@@ -109,6 +113,9 @@
       </if>
       <if test="money != null">
         #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="modified != null">
+        #{modified,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -146,6 +153,9 @@
       <if test="money != null">
         money = #{money,jdbcType=DOUBLE},
       </if>
+      <if test="modified != null">
+        modified = #{modified,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -161,7 +171,8 @@
       `cycle` = #{cycle,jdbcType=INTEGER},
       `start` = #{start,jdbcType=DATE},
       `end` = #{end,jdbcType=DATE},
-      money = #{money,jdbcType=DOUBLE}
+      money = #{money,jdbcType=DOUBLE},
+      modified = #{modified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

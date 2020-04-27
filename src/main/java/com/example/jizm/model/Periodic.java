@@ -39,6 +39,9 @@ public class Periodic {
     @ApiModelProperty(value="")
     private Double money;
 
+    @ApiModelProperty(value="")
+    private Date modified;
+
     public Integer getId() {
         return id;
     }
@@ -125,5 +128,35 @@ public class Periodic {
 
     public void setMoney(Double money) {
         this.money = money;
+    }
+
+    public Date getModified() {
+        return modified;
+    }
+
+    public void setModified(Date modified) {
+        this.modified = modified;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
+        sb.append(", localId=").append(localId);
+        sb.append(", accountId=").append(accountId);
+        sb.append(", categoryId=").append(categoryId);
+        sb.append(", userId=").append(userId);
+        sb.append(", type=").append(type);
+        sb.append(", name=").append(name);
+        sb.append(", cycle=").append(cycle);
+        sb.append(", start=").append(start);
+        sb.append(", end=").append(end);
+        sb.append(", money=").append(money);
+        sb.append(", modified=").append(modified);
+        sb.append("]");
+        return sb.toString();
     }
 }
