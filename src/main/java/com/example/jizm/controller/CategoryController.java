@@ -19,7 +19,7 @@ public class CategoryController {
     @Resource
     CategoryMapper categoryMapper;
 
-    @GetMapping
+    @GetMapping("/web/categories")
     @ApiOperation(value="获取账单类别列表",notes="获取当前登录用户的账单类别列表")
     @ApiImplicitParam(name="token",value="用户登录时获取的token",required = true,dataType="String",
         paramType = "header")

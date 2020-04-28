@@ -19,7 +19,7 @@ public class AccountController {
     @Resource
     AccountMapper accountMapper;
 
-    @GetMapping
+    @GetMapping("/web/accounts")
     @ApiOperation(value="获取账户列表",notes="获取当前登录用户的账户列表",protocols = "http")
     @ApiImplicitParam(name="token",value="用户登录时获取的token",required = true,dataType="String",
             paramType = "header")
