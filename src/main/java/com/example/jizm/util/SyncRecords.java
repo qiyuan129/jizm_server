@@ -7,10 +7,13 @@ import java.util.List;
 
 @ApiModel(value="封装一张表中需同步的增、删、改记录")
 public class SyncRecords<T> {
+    @ApiModelProperty(value="该表是否需要同步")
     boolean needSync;
     @ApiModelProperty(value = "需要在服务器插入的记录列表")
     List<T> insertList;
+    @ApiModelProperty(value = "需要在服务器更新的记录列表")
     List<T> updateList;
+    @ApiModelProperty(value = "需要在服务器删除的记录列表")
     List<T> deleteList;
 
     public boolean isNeedSync() {

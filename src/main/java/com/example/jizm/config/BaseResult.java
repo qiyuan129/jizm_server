@@ -6,10 +6,10 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * 通用响应对象
  */
-@ApiModel(description = "响应对象")
+@ApiModel(description = "包装HTTP请求返回数据及信息的对象")
 public class BaseResult<T> {
     private static final int SUCCESS_CODE = 0;
-    private static final String SUCCESS_MESSAGE = "成功";
+    private static final String SUCCESS_MESSAGE = "请求成功";
 
     @ApiModelProperty(value = "响应码", name = "code", required = true, example = "" + SUCCESS_CODE)
     private int code;

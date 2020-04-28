@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
-@ApiModel(value="账单对象，一个Bill对象对应一条收/支记录")
+@ApiModel(value="账单对象，一个Bill对象对应一条收支记录")
 public class Bill {
     @ApiModelProperty(value="账单对象在服务器端数据库的id")
     private Integer id;

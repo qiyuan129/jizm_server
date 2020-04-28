@@ -7,6 +7,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,10 +28,10 @@ public class BillController {
     @ApiImplicitParams({
 //            @ApiImplicitParam(name="userId",value="用户id",required = true,dataType = "int",
 //                    paramType = "query"),
-            @ApiImplicitParam(name="token",value="用户登录时获得的token",required = true,dataType = "String",
+            @ApiImplicitParam(name="token",value="用户登录时获得的token",required = true,dataTypeClass = String.class,
                     paramType = "header"),
-            @ApiImplicitParam(name="categoryId",value="账单类别,该参数值为空时将不分类别返回指定用户的所有账单",dataType = "int",
-                    paramType = "query")
+            @ApiImplicitParam(name="categoryId",value="账单类别,该参数值为空或者为0时将不分类别返回指定用户的所有账单",example = "1",
+                    dataType = "Int", paramType = "query")
     })
     public BaseResult<List> getBills(@RequestHeader String token,
                                      @RequestParam int categoryId){
@@ -42,9 +43,9 @@ public class BillController {
     @GetMapping("/web/bill")
     @ApiOperation(value="获取一条账单的信息",notes="根据token中的用户id和参数中的local_id查询一条账单的信息",protocols = "http")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="token",value="用户登录时获得的token",required = true,dataType = "String",
+            @ApiImplicitParam(name="token",value="用户登录时获得的token",required = true,dataTypeClass = String.class,
                     paramType="header"),
-            @ApiImplicitParam(name="local_id",value="账单的local_id",required = true,dataType="int",
+            @ApiImplicitParam(name="local_id",value="账单的local_id",required = true,dataType = "Int",example = "1",
                     paramType = "query")
     })
     public BaseResult<Bill> getBill(@RequestHeader String token, @RequestParam int local_id){

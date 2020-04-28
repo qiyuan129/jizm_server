@@ -19,8 +19,9 @@ public class SyncController {
     @ApiOperation(value="app发送同步记录",notes="app发送需要同步的记录，服务器接收后进行批量处理",protocols = "http")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "list", value = "同步记录列表，注意：默认排序：account表-》Bill表-》Category表-》Periodic表",
-                    dataType = "List<SyncRecords>", paramType = "body"),
-            @ApiImplicitParam(name = "token", value = "用户端保存的令牌", dataType = "String", paramType = "header")
+                    dataTypeClass = List.class, paramType = "body"),
+            @ApiImplicitParam(name = "token", value = "用户端保存的令牌", dataTypeClass = String.class,
+                    paramType = "header")
     })
     @PostMapping("/app/synchronization")
     public SyncRecords<Account> readJsonTest(@RequestHeader String token,@RequestBody List<SyncRecords> list){
@@ -30,7 +31,7 @@ public class SyncController {
 //        List<SyncRecords> list= JSON.parseObject(json,type);
 //        SyncRecords<Account> accounts=list.get(0);
 //        return accounts;
-
+        //@TODO
         SyncRecords<Account> accounts=list.get(0);
         return accounts;
     }
