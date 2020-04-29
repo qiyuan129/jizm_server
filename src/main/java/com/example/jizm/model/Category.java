@@ -4,24 +4,24 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
-@ApiModel(value="com-example-jizm-model-Category")
+@ApiModel(value="账单类别类")
 public class Category {
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="类别对象在服务器数据库的id")
     private Integer id;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="类别对象在app端数据库的id")
     private Integer localId;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="该类别对象所属的用户的id")
     private Integer userId;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="类别名")
     private String name;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="标记该类别是收入类别还是支出类别,0为收入，1为支出")
     private Integer type;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="该记录在服务器端的上次修改时间")
     private Date modified;
 
     public Integer getId() {

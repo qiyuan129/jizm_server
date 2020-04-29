@@ -3,11 +3,13 @@ package com.example.jizm.controller;
 import com.example.jizm.config.BaseResult;
 import com.example.jizm.dao.BillMapper;
 import com.example.jizm.model.Bill;
+import com.example.jizm.service.BillService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +25,9 @@ public class BillController {
     @Resource
     BillMapper billMapper;
 
+    @Autowired
+    BillService billService;
+
     @GetMapping("/web/bills")
     @ApiOperation(value="获取账单列表",notes="根据参数获取指定类别的帐单列表",protocols = "http")
     @ApiImplicitParams({
@@ -30,13 +35,14 @@ public class BillController {
 //                    paramType = "query"),
             @ApiImplicitParam(name="token",value="用户登录时获得的token",required = true,dataTypeClass = String.class,
                     paramType = "header"),
-            @ApiImplicitParam(name="categoryId",value="账单类别,该参数值为空或者为0时将不分类别返回指定用户的所有账单",example = "1",
-                    dataType = "Int", paramType = "query")
+            @ApiImplicitParam(name="categoryId",value="账单类别id,不填写该参数值时将不分类别返回指定用户的所有账单；填-1返回当前登录" +
+                    "用户的收入账单列表，填-2返回当前登录用户的支出账单列表", example = "1", dataType = "Int", paramType = "query")
     })
     public BaseResult<List> getBills(@RequestHeader String token,
                                      @RequestParam int categoryId){
-        //@TODO  有待修改（加入对categoryId为空的处理）
-        List<Bill> billList=new ArrayList<>();
+        //@TODO  待加入token验证
+        int userIdForTest=1;
+        List<Bill> billList=billService.getBillList(userIdForTest,categoryId);
         return BaseResult.successWithData(billList);
     }
 
@@ -49,7 +55,8 @@ public class BillController {
                     paramType = "query")
     })
     public BaseResult<Bill> getBill(@RequestHeader String token, @RequestParam int local_id){
-        Bill bill=new Bill();
+        int userIdForTest=1;
+        Bill bill=billMapper.selectByLocalIdAndUserId(local_id,userIdForTest);
         return BaseResult.successWithData(bill);
     }
 

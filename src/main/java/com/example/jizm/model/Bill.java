@@ -12,7 +12,7 @@ public class Bill {
     @ApiModelProperty(value="账单对象在app端数据库的id")
     private Integer localId;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="该账单对象对应的账户")
     private Account account;
 
     @ApiModelProperty(value="")

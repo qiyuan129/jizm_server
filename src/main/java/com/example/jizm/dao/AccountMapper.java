@@ -1,7 +1,11 @@
 package com.example.jizm.dao;
 
-import com.example.jizm.model.Account;import org.apache.ibatis.annotations.Param;import java.util.List;
+import com.example.jizm.model.Account;import org.apache.ibatis.annotations.Param;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+@Transactional(rollbackFor = Exception.class)
 public interface AccountMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -17,7 +21,9 @@ public interface AccountMapper {
 
     int insertList(@Param("list") List<Account> list);
 
-    List<Account> selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
+    Account selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
+
+    List<Account> selectAllByUserId(@Param("userId")Integer userId);
 
 
 }

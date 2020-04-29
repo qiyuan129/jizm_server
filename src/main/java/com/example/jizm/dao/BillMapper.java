@@ -22,5 +22,9 @@ public interface BillMapper {
 
     Bill selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
 
+    List<Bill> selectAllByUserId(@Param("userId")Integer userId);
+
+    List<Bill> selectAllByUserIdAndType(@Param("userId")Integer userId,@Param("type")Integer type);
+
 
 }

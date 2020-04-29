@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
-@ApiModel(value="com-example-jizm-model-Periodic")
+@ApiModel(value="周期时间类")
 public class Periodic {
     @ApiModelProperty(value="")
     private Integer id;
