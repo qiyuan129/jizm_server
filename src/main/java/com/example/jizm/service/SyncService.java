@@ -37,7 +37,7 @@ public class SyncService {
     }
 
     @Transactional
-    public void accountsSync(SyncRecords<Account> account){
+    public void accountsSync(SyncRecords<Account> accounts){
 
     }
 

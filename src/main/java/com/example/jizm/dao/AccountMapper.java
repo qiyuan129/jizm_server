@@ -19,11 +19,14 @@ public interface AccountMapper {
 
     int updateByPrimaryKey(Account record);
 
-    int insertList(@Param("list") List<Account> list);
-
     Account selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
 
     List<Account> selectAllByUserId(@Param("userId")Integer userId);
+
+    int insertList(@Param("list")List<Account> list);
+
+
+
 
 
 }
