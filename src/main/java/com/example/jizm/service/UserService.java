@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     UserMapper userMapper;
-    public User findByUsername(User user){
-        return userMapper.selectByUserName(user.getUserName());
+    public User findByUsername(String userName){
+        return userMapper.selectByUserName(userName);
     }
     public User findByPhone(String phone) {
         return userMapper.selectByPhone(phone);
