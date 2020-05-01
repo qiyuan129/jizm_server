@@ -1,6 +1,7 @@
 package com.example.jizm.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.JWT;
 import com.example.jizm.annotation.UserLoginToken;
 import com.example.jizm.config.BaseResult;
 import com.example.jizm.dao.UserMapper;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = {"用户相关接口"},protocols = "http")
 @RestController
@@ -25,6 +27,8 @@ public class UserController {
     UserService userService;
     @Autowired
     TokenService tokenService;
+    @Autowired
+    private HttpServletRequest request;
 
     @PostMapping("/validationCode")
     @ApiOperation(value="获取验证码",notes="向指定手机号发送验证码",protocols = "http")
@@ -40,7 +44,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "登录方式：0为手机登录，1为用户名登录", required = true,example = "1",
                     dataType = "Int", paramType = "body"),
-            @ApiImplicitParam(name = "account", value = "用户账户，代表手机还是邮箱由type参数决定", required = true,
+            @ApiImplicitParam(name = "account", value = "用户账户，代表手机还是用户名由type参数决定", required = true,
                     dataTypeClass = String.class,paramType = "body"),
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataTypeClass = String.class,
                     paramType = "body")
@@ -104,6 +108,15 @@ public class UserController {
     public BaseResult<String> userRegister(String phoneNumber,String password,String email,String validationCode){
         //@TODO
         return BaseResult.success();
+    }
+
+    public int getUserID(HttpServletRequest request){ //token为空返回-1
+        String userId;
+        String token = request.getHeader("token");
+        if(token==null)
+            return -1;
+        userId = JWT.decode(token).getAudience().get(0);
+        return  Integer.parseInt(userId);
     }
 
 }
