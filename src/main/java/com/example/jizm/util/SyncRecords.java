@@ -16,6 +16,7 @@ public class SyncRecords<T> {
     @ApiModelProperty(value = "需要在服务器插入的记录列表")
     List<T> recordList;
 
+
     public boolean isNeedSync() {
         return needSync;
     }

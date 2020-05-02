@@ -1,4 +1,5 @@
 package com.example.jizm.dao;
+import java.util.Date;
 
 import com.example.jizm.model.Account;import org.apache.ibatis.annotations.Param;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +28,7 @@ public interface AccountMapper {
 
     int insertList(@Param("list")List<Account> list);
 
-
-
+    List<Account> selectByModifiedGreaterThanAndUserId(@Param("minModified")Date minModified,@Param("userId")Integer userId);
 
 
 }

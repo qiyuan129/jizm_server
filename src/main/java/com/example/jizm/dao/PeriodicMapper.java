@@ -1,4 +1,5 @@
 package com.example.jizm.dao;
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,6 +15,10 @@ public interface PeriodicMapper {
     Periodic selectByPrimaryKey(Integer id);
 
     Periodic selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
+
+    List<Periodic> selectByModifiedGreaterThanAndUserId(@Param("minModified")Date minModified,@Param("userId")Integer userId);
+
+
 
     int updateByPrimaryKeySelective(Periodic record);
 

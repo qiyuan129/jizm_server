@@ -10,10 +10,9 @@ import com.example.jizm.util.SyncRecords;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import springfox.documentation.spring.web.json.Json;
 
+import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
@@ -30,26 +29,27 @@ public class SyncService {
 
     @Transactional(rollbackFor = Exception.class)
     public HashMap<String,SyncRecords> processUploadRecords(HashMap<String,SyncRecords> map){
+        //获取同步记录后，先用JsonUtil工具类中的方法把同步记录中recordList转换为正确的格式，再传给对应方法处理
         SyncRecords<Account> accountSyncRecords=map.get("Account");
         JsonUtil.recordListConvertion(accountSyncRecords.getRecordList(),Account.class);
-        accountsSync(accountSyncRecords);
+        accountUpload(accountSyncRecords);
 
         SyncRecords<Bill> billSyncRecords=map.get("Bill");
         JsonUtil.recordListConvertion(billSyncRecords.getRecordList(),Bill.class);
-        billSync(billSyncRecords);
+        billUpload(billSyncRecords);
 
         SyncRecords<Category> categorySyncRecords=map.get("Category");
         JsonUtil.recordListConvertion(categorySyncRecords.getRecordList(),Category.class);
-        categorySync(categorySyncRecords);
+        categoryUpload(categorySyncRecords);
 
         SyncRecords<Periodic> periodicSyncRecords=map.get("Periodic");
         JsonUtil.recordListConvertion(periodicSyncRecords.getRecordList(),Periodic.class);
-        periodicSync(periodicSyncRecords);
+        periodicUpload(periodicSyncRecords);
         return map;
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void accountsSync(SyncRecords<Account> accountSyncRecords){
+    public void accountUpload(SyncRecords<Account> accountSyncRecords){
         if(accountSyncRecords.isNeedSync()==true){
             List<Account> accounts=accountSyncRecords.getRecordList();
 
@@ -81,7 +81,7 @@ public class SyncService {
         }
     }
 
-    public void billSync(SyncRecords<Bill> billSyncRecords){
+    public void billUpload(SyncRecords<Bill> billSyncRecords){
         if(billSyncRecords.isNeedSync()==true){
             List<Bill> bills=billSyncRecords.getRecordList();
 
@@ -111,7 +111,7 @@ public class SyncService {
         }
     }
 
-    public void categorySync(SyncRecords<Category> categorySyncRecords){
+    public void categoryUpload(SyncRecords<Category> categorySyncRecords){
         if(categorySyncRecords.isNeedSync()==true){
             List<Category> categories=categorySyncRecords.getRecordList();
             for(Category category:categories){
@@ -134,7 +134,7 @@ public class SyncService {
 
     }
 
-    public void periodicSync(SyncRecords<Periodic> periodicSyncRecords){
+    public void periodicUpload(SyncRecords<Periodic> periodicSyncRecords){
         if(periodicSyncRecords.isNeedSync()==true){
             List<Periodic> periodics=periodicSyncRecords.getRecordList();
             for(Periodic periodic:periodics){
@@ -154,5 +154,83 @@ public class SyncService {
                 periodics.set(i,newPeriodic);
             }
         }
+    }
+
+    public HashMap<String, SyncRecords> processDownloadRequest(HashMap<String, Date> map,int userId){
+        HashMap<String,SyncRecords> result=new HashMap<>();
+
+        SyncRecords<Account> accountSyncRecords=accountDownload(map.get("Account"),userId);
+        SyncRecords<Bill> billSyncRecords=billDownload(map.get("Bill"),userId);
+        SyncRecords<Category> categorySyncRecords=categoryDownload(map.get("Category"),userId);
+        SyncRecords<Periodic> periodicSyncRecords=periodicDownload(map.get("Periodic"),userId);
+
+        result.put("Account",accountSyncRecords);
+        result.put("Bill",billSyncRecords);
+        result.put("Category",categorySyncRecords);
+        result.put("Periodic",periodicSyncRecords);
+        return result;
+    }
+
+    public SyncRecords<Account> accountDownload(Date date,int userId){
+        SyncRecords<Account> accountSyncRecords=new SyncRecords<>();
+        accountSyncRecords.setTableName("Account");
+
+        List<Account> accounts=accountMapper.selectByModifiedGreaterThanAndUserId(date,userId);
+        //有待同步记录
+        if(accounts.isEmpty()==false){
+            accountSyncRecords.setNeedSync(true);
+            accountSyncRecords.setRecordList(accounts);
+        }
+        else{
+            accountSyncRecords.setNeedSync(false);
+        }
+        return accountSyncRecords;
+    }
+    public SyncRecords<Bill> billDownload(Date date,int userId){
+        SyncRecords<Bill> billSyncRecords=new SyncRecords<>();
+        billSyncRecords.setTableName(("Bill"));
+
+        List<Bill> bills=billMapper.selectByModifiedGreaterThanAndUserId(date,userId);
+        //有待同步记录
+        if(bills.isEmpty()==false){
+            billSyncRecords.setNeedSync(true);
+            billSyncRecords.setRecordList(bills);
+        }
+        else{
+            billSyncRecords.setNeedSync(false);
+        }
+        return billSyncRecords;
+    }
+    public SyncRecords<Category> categoryDownload(Date date,int userId){
+        SyncRecords<Category> categorySyncRecords=new SyncRecords<>();
+        categorySyncRecords.setTableName("Category");
+
+        List<Category> categories=categoryMapper.selectByModifiedGreaterThanAndUserId(date,userId);
+        //有待同步记录
+        if(categories.isEmpty()==false){
+            categorySyncRecords.setNeedSync(true);
+            categorySyncRecords.setRecordList(categories);
+        }
+        else{
+            categorySyncRecords.setNeedSync(false);
+        }
+        return categorySyncRecords;
+    }
+
+    public SyncRecords<Periodic> periodicDownload(Date date,int userId){
+        SyncRecords<Periodic> periodicSyncRecords=new SyncRecords<>();
+        periodicSyncRecords.setTableName("Periodic");
+
+        List<Periodic> periodics=periodicMapper.selectByModifiedGreaterThanAndUserId(date,userId);
+        //有待同步记录
+        if(periodics.isEmpty()==false){
+            periodicSyncRecords.setNeedSync(true);
+            periodicSyncRecords.setRecordList(periodics);
+        }
+        else{
+            periodicSyncRecords.setNeedSync(false);
+        }
+        return periodicSyncRecords;
+
     }
 }

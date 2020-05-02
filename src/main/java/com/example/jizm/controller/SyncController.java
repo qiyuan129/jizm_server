@@ -1,5 +1,6 @@
 package com.example.jizm.controller;
 
+import com.example.jizm.annotation.UserLoginToken;
 import com.example.jizm.config.BaseResult;
 import com.example.jizm.dao.AccountMapper;
 import com.example.jizm.model.Account;
@@ -14,39 +15,48 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 @RestController
-@Api(value="处理app端同步请求的控制器",protocols = "http")
+@Api(tags={"同步相关接口"},protocols = "http")
 public class SyncController {
     @Autowired
     SyncService syncService;
     @Autowired
     AccountMapper accountMapper;
 
-    @ApiOperation(value="app发送同步记录",notes="app发送需要同步的记录，服务器接收后进行批量处理",protocols = "http")
+    @ApiOperation(value="app上传待同步记录",notes="app发送需要同步的记录，服务器接收后进行批量处理",protocols = "http")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "list", value = "同步记录列表，注意：默认排序：account表-》Bill表-》Category表-》Periodic表",
-                    dataTypeClass = List.class, paramType = "body"),
+            @ApiImplicitParam(name = "map", value = "同步记录哈希表，key：数据库表名（首字母大写），value：经过包装的同步记录（SyncRecords类型）",
+                    dataTypeClass = HashMap.class, paramType = "body"),
             @ApiImplicitParam(name = "token", value = "用户端保存的令牌", dataTypeClass = String.class,
                     paramType = "header")
     })
     @PostMapping("/app/synchronization")
     public BaseResult<HashMap> processUpload(@RequestHeader String token, @RequestBody HashMap<String,SyncRecords> map){
-//        List<SyncRecords> list=JSONObject.parseArray(json,SyncRecords.class)
-
-//        Type type = new TypeReference<List<SyncRecords>>() {}.getType();
-//        List<SyncRecords> list= JSON.parseObject(json,type);
-//        SyncRecords<Account> accounts=list.get(0);
-//        return accounts;
-        //@TODO
+        //@TODO   这里用户登录状态验证可能有点小问题
         syncService.processUploadRecords(map);
         //syncService.updateUploadResult(map.get("Account"));
         return BaseResult.successWithData(map);
     }
 
-    @RequestMapping("app/getJson")
+    @GetMapping("/app/synchronization")
+    @ApiOperation(value="app请求从服务器端获取待同步记录",notes="根据app端发送的参数返回各表需要同步的记录",protocols = "http")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="token",value="用户登录时获取的token",required = true,dataType = "String",
+                paramType = "header"),
+            @ApiImplicitParam(name="map",value="各表的最新修改时间",required = true,dataType="HashMap",paramType = "body")
+    })
+    @UserLoginToken
+    public BaseResult<HashMap> processDownload(int userId, @RequestBody HashMap<String,Date> map){
+        HashMap<String,SyncRecords> result=syncService.processDownloadRequest(map,userId);
+        return BaseResult.successWithData(result);
+    }
+
+
+    @GetMapping("app/getJson")
     public HashMap<String,SyncRecords> createJsonArray(){
         HashMap<String,SyncRecords> map=new HashMap();
         SyncRecords<Account> accounts=new SyncRecords<>();

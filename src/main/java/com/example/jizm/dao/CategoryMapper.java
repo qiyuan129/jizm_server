@@ -1,4 +1,5 @@
 package com.example.jizm.dao;
+import java.util.Date;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -25,6 +26,9 @@ public interface CategoryMapper {
     //List<Category> selectAllByUserId(@Param("userId")Integer userId);
 
     List<Category> selectByUserIdAndType(@Param("userId")Integer userId,@Param("type")Integer type);
+
+    List<Category> selectByModifiedGreaterThanAndUserId(@Param("minModified")Date minModified,@Param("userId")Integer userId);
+
 
 
 }

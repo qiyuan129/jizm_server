@@ -1,4 +1,5 @@
 package com.example.jizm.dao;
+import java.util.Date;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import com.example.jizm.model.Category;
@@ -20,8 +21,6 @@ public interface BillMapper {
 
     int updateByLocalIdAndUserId(@Param("updated")Bill updated,@Param("localId")Integer localId,@Param("userId")Integer userId);
 
-
-
     List<Bill> selectAllByCategoryIdAndUserId(@Param("categoryId")Integer categoryId, @Param("userId")Integer userId);
 
     Bill selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
@@ -29,6 +28,8 @@ public interface BillMapper {
     List<Bill> selectAllByUserId(@Param("userId")Integer userId);
 
     List<Bill> selectAllByUserIdAndType(@Param("userId")Integer userId,@Param("type")Integer type);
+
+    List<Bill> selectByModifiedGreaterThanAndUserId(@Param("minModified")Date minModified,@Param("userId")Integer userId);
 
 
 }
