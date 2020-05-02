@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -58,6 +55,19 @@ public class BillController {
         int userIdForTest=1;
         Bill bill=billMapper.selectByLocalIdAndUserId(local_id,userIdForTest);
         return BaseResult.successWithData(bill);
+    }
+
+    @PostMapping("/web/bills")
+    @ApiOperation(value="批量上传账单",notes="将web端读取账单文件、处理后的账单批量插入到当前登录用户的账单表中",protocols = "http")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="token",value="用户登录时获取的token",required =true,dataType = "String",
+                    paramType = "header"),
+            @ApiImplicitParam(name="bills",value="待上传的帐单列表",required = true,dataTypeClass =List.class,
+                    paramType = "body")
+    })
+    public BaseResult<String> uploadBills(int userId,@RequestBody List<Bill> bills){
+        billService.insertBillListFromWeb(bills,userId);
+        return BaseResult.successWithData("批量上传账单成功！");
     }
 
 }

@@ -31,6 +31,9 @@ public class Account {
     public Account() {
     }
 
+    public Account(Integer id){
+        this.localId=id;
+    }
     public Account(Integer localId, Integer userId, String name, Double money, int state) {
         this.localId = localId;
         this.userId = userId;

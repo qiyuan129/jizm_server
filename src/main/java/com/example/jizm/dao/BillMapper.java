@@ -31,5 +31,7 @@ public interface BillMapper {
 
     List<Bill> selectByModifiedGreaterThanAndUserId(@Param("minModified")Date minModified,@Param("userId")Integer userId);
 
+    Integer selectMaxLocalIdByUserId(@Param("userId")Integer userId);
+
 
 }

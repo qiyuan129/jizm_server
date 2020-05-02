@@ -1,9 +1,11 @@
 package com.example.jizm.service;
 
 import com.example.jizm.dao.BillMapper;
+import com.example.jizm.model.Account;
 import com.example.jizm.model.Bill;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,4 +39,18 @@ public class BillService {
         }
         return billList;
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void insertBillListFromWeb(List<Bill> bills,int userId){
+        int localIdCount=billMapper.selectMaxLocalIdByUserId(userId);
+        for(Bill bill:bills){
+            localIdCount++;
+            bill.setUserId(userId);
+            bill.setLocalId(localIdCount);
+            //这一条正确的前提是每个用户都有一个保留的accountId为1的支付宝账户
+            bill.setAccount(new Account(1));
+            billMapper.insertSelective(bill);
+        }
+    }
+
 }
