@@ -24,6 +24,21 @@ public class Account {
     @ApiModelProperty(value="")
     private Date modified;
 
+    private transient int state;
+
+    private transient Date anchor;
+
+    public Account() {
+    }
+
+    public Account(Integer localId, Integer userId, String name, Double money, int state) {
+        this.localId = localId;
+        this.userId = userId;
+        this.name = name;
+        this.money = money;
+        this.state = state;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -70,6 +85,22 @@ public class Account {
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public Date getAnchor() {
+        return anchor;
+    }
+
+    public void setAnchor(Date anchor) {
+        this.anchor = anchor;
     }
 
     @Override

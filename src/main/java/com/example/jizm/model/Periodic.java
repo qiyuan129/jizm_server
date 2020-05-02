@@ -42,6 +42,10 @@ public class Periodic {
     @ApiModelProperty(value="")
     private Date modified;
 
+    private transient int state;
+
+    private transient Date anchor;
+
     public Integer getId() {
         return id;
     }
@@ -138,25 +142,39 @@ public class Periodic {
         this.modified = modified;
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public Date getAnchor() {
+        return anchor;
+    }
+
+    public void setAnchor(Date anchor) {
+        this.anchor = anchor;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", localId=").append(localId);
-        sb.append(", accountId=").append(accountId);
-        sb.append(", categoryId=").append(categoryId);
-        sb.append(", userId=").append(userId);
-        sb.append(", type=").append(type);
-        sb.append(", name=").append(name);
-        sb.append(", cycle=").append(cycle);
-        sb.append(", start=").append(start);
-        sb.append(", end=").append(end);
-        sb.append(", money=").append(money);
-        sb.append(", modified=").append(modified);
-        sb.append("]");
-        return sb.toString();
+        return "Periodic{" +
+                "id=" + id +
+                ", localId=" + localId +
+                ", accountId=" + accountId +
+                ", categoryId=" + categoryId +
+                ", userId=" + userId +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", cycle=" + cycle +
+                ", start=" + start +
+                ", end=" + end +
+                ", money=" + money +
+                ", modified=" + modified +
+                ", state=" + state +
+                ", anchor=" + anchor +
+                '}';
     }
 }

@@ -24,6 +24,10 @@ public class Category {
     @ApiModelProperty(value="该记录在服务器端的上次修改时间")
     private Date modified;
 
+    private transient int state;
+
+    private transient Date anchor;
+
     public Integer getId() {
         return id;
     }
@@ -72,19 +76,33 @@ public class Category {
         this.modified = modified;
     }
 
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public Date getAnchor() {
+        return anchor;
+    }
+
+    public void setAnchor(Date anchor) {
+        this.anchor = anchor;
+    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", localId=").append(localId);
-        sb.append(", userId=").append(userId);
-        sb.append(", name=").append(name);
-        sb.append(", type=").append(type);
-        sb.append(", modified=").append(modified);
-        sb.append("]");
-        return sb.toString();
+        return "Category{" +
+                "id=" + id +
+                ", localId=" + localId +
+                ", userId=" + userId +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                ", modified=" + modified +
+                ", state=" + state +
+                ", anchor=" + anchor +
+                '}';
     }
 }

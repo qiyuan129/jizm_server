@@ -17,6 +17,9 @@ public interface CategoryMapper {
 
     int updateByPrimaryKey(Category record);
 
+    int updateByLocalIdAndUserId(@Param("updated")Category updated,@Param("localId")Integer localId,@Param("userId")Integer userId);
+
+
     Category selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
 
     //List<Category> selectAllByUserId(@Param("userId")Integer userId);

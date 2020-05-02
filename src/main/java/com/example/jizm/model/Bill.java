@@ -36,6 +36,10 @@ public class Bill {
     @ApiModelProperty(value="")
     private Date modified;
 
+    private transient int state;
+
+    private transient Date anchor;
+
     public Integer getId() {
         return id;
     }
@@ -118,21 +122,36 @@ public class Bill {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", localId=").append(localId);
-        sb.append(", accountId=").append(account.getId());
-        sb.append(", categoryId=").append(category.getId());
-        sb.append(", userId=").append(userId);
-        sb.append(", type=").append(type);
-        sb.append(", name=").append(name);
-        sb.append(", date=").append(date);
-        sb.append(", money=").append(money);
-        sb.append(", modified=").append(modified);
-        sb.append("]");
-        return sb.toString();
+        return "Bill{" +
+                "id=" + id +
+                ", localId=" + localId +
+                ", account=" + account +
+                ", category=" + category +
+                ", userId=" + userId +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", date=" + date +
+                ", money=" + money +
+                ", modified=" + modified +
+                ", state=" + state +
+                ", anchor=" + anchor +
+                '}';
     }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public Date getAnchor() {
+        return anchor;
+    }
+
+    public void setAnchor(Date anchor) {
+        this.anchor = anchor;
+    }
+
 }

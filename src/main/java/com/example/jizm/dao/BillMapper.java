@@ -18,6 +18,10 @@ public interface BillMapper {
 
     int updateByPrimaryKey(Bill record);
 
+    int updateByLocalIdAndUserId(@Param("updated")Bill updated,@Param("localId")Integer localId,@Param("userId")Integer userId);
+
+
+
     List<Bill> selectAllByCategoryIdAndUserId(@Param("categoryId")Integer categoryId, @Param("userId")Integer userId);
 
     Bill selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);

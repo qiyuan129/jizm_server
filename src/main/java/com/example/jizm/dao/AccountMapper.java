@@ -19,6 +19,8 @@ public interface AccountMapper {
 
     int updateByPrimaryKey(Account record);
 
+    int updateByUserIdAndLocalId(@Param("updated")Account updated,@Param("userId")Integer userId,@Param("localId")Integer localId);
+
     Account selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
 
     List<Account> selectAllByUserId(@Param("userId")Integer userId);
