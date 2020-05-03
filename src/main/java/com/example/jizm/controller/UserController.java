@@ -9,6 +9,7 @@ import com.example.jizm.model.User;
 import com.example.jizm.service.TokenService;
 import com.example.jizm.service.UserService;
 import io.swagger.annotations.*;
+import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,45 +53,14 @@ public class UserController {
     public BaseResult<String> userLogin(int type,String account,String password){
         //@TODO
         //JSONObject jsonObject=new JSONObject();
-        if(type==0){
-            //手机登录
-            User userForBase= userService.findByPhone(account);
-            if(userForBase==null){
-                return BaseResult.failWithCodeAndMsg(200,"账号不存在");
-            }
-            else{
-                if (!userForBase.getPassword().equals(password)){
-                    return BaseResult.failWithCodeAndMsg(200,"密码错误");
-                }
-                else {
-                    String token = tokenService.getToken(userForBase);
-                    return BaseResult.successWithData(token);
-                }
-            }
-        }
-        else{
-            //用户名登录
-            User userForBase= userService.findByUsername(account);
-            if(userForBase==null){
-                return BaseResult.failWithCodeAndMsg(200,"账号不存在");
-            }
-            else{
-                if (!userForBase.getPassword().equals(password)){
-                    return BaseResult.failWithCodeAndMsg(200,"密码错误");
-                }
-                else {
-                    String token = tokenService.getToken(userForBase);
-                    return BaseResult.successWithData(token);
+        return userService.userLogin(type,account,password);
 
-                }
-            }
-        }
     }
 
     @GetMapping("/message")
     @UserLoginToken
-    public String getMessage(){
-        return "Success";
+    public String getMessage(HttpServletRequest request){
+        return "Success"+getUserID(request);
     }
 
     @PostMapping("/user/registry")
@@ -110,13 +80,10 @@ public class UserController {
         return BaseResult.success();
     }
 
-    public int getUserID(HttpServletRequest request){ //token为空返回-1
-        String userId;
-        String token = request.getHeader("token");
-        if(token==null)
-            return -1;
-        userId = JWT.decode(token).getAudience().get(0);
-        return  Integer.parseInt(userId);
+    public Object getUserID(HttpServletRequest request){
+        if(request.getAttribute("userID")== null)
+            return  -1;
+        return request.getAttribute("userID");
     }
 
 }
