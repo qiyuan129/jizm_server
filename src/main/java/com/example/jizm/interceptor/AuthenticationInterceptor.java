@@ -63,6 +63,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 } catch (JWTVerificationException e) {
                     throw new RuntimeException("验证已过期");
                 }
+                httpServletRequest.setAttribute("userID", user.getUserId());
                 return true;
             }
         }
