@@ -31,20 +31,28 @@ public class SyncService {
     public HashMap<String,SyncRecords> processUploadRecords(HashMap<String,SyncRecords> map){
         //获取同步记录后，先用JsonUtil工具类中的方法把同步记录中recordList转换为正确的格式，再传给对应方法处理
         SyncRecords<Account> accountSyncRecords=map.get("Account");
-        JsonUtil.recordListConvertion(accountSyncRecords.getRecordList(),Account.class);
-        accountUpload(accountSyncRecords);
+        if(accountSyncRecords!=null) {
+            JsonUtil.recordListConvertion(accountSyncRecords.getRecordList(), Account.class);
+            accountUpload(accountSyncRecords);
+        }
 
         SyncRecords<Bill> billSyncRecords=map.get("Bill");
-        JsonUtil.recordListConvertion(billSyncRecords.getRecordList(),Bill.class);
-        billUpload(billSyncRecords);
+        if(billSyncRecords!=null) {
+            JsonUtil.recordListConvertion(billSyncRecords.getRecordList(), Bill.class);
+            billUpload(billSyncRecords);
+        }
 
         SyncRecords<Category> categorySyncRecords=map.get("Category");
-        JsonUtil.recordListConvertion(categorySyncRecords.getRecordList(),Category.class);
-        categoryUpload(categorySyncRecords);
+        if(categorySyncRecords!=null) {
+            JsonUtil.recordListConvertion(categorySyncRecords.getRecordList(), Category.class);
+            categoryUpload(categorySyncRecords);
+        }
 
         SyncRecords<Periodic> periodicSyncRecords=map.get("Periodic");
-        JsonUtil.recordListConvertion(periodicSyncRecords.getRecordList(),Periodic.class);
-        periodicUpload(periodicSyncRecords);
+        if(periodicSyncRecords!=null) {
+            JsonUtil.recordListConvertion(periodicSyncRecords.getRecordList(), Periodic.class);
+            periodicUpload(periodicSyncRecords);
+        }
         return map;
     }
 

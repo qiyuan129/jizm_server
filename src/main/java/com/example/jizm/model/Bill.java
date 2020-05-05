@@ -40,6 +40,21 @@ public class Bill {
 
     private transient Date anchor;
 
+    public Bill(){
+    }
+
+    public Bill(Integer localId, Integer accountId, Integer categoryId, Integer userId, Integer type, String name,
+                Double money, int state) {
+        this.localId = localId;
+        this.account = new Account(accountId);
+        this.category = new Category(categoryId);
+        this.userId = userId;
+        this.type = type;
+        this.name = name;
+        this.money = money;
+        this.state = state;
+    }
+
     public Integer getId() {
         return id;
     }

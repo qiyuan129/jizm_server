@@ -28,6 +28,20 @@ public class Category {
 
     private transient Date anchor;
 
+    public Category(){
+    }
+    public Category(Integer id){
+        this.localId=id;
+    }
+
+    public Category(Integer localId, Integer userId, String name, Integer type, int state) {
+        this.localId = localId;
+        this.userId = userId;
+        this.name = name;
+        this.type = type;
+        this.state = state;
+    }
+
     public Integer getId() {
         return id;
     }

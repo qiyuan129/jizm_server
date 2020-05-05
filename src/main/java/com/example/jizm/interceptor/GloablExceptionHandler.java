@@ -17,6 +17,7 @@ public class GloablExceptionHandler {
         String msg = e.getMessage();
         if (msg == null || msg.equals("")) {
             msg = "服务器出错";
+            e.printStackTrace();
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("message", msg);

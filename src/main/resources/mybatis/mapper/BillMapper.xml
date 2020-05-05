@@ -41,7 +41,7 @@
       user_id, `type`, `name`, 
       `date`, money, modified
       )
-    values (#{localId,jdbcType=INTEGER}, #{account.id,jdbcType=INTEGER}, #{category.id,jdbcType=INTEGER}, 
+    values (#{localId,jdbcType=INTEGER}, #{account.localId,jdbcType=INTEGER}, #{category.localId,jdbcType=INTEGER},
       #{userId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{date,jdbcType=TIMESTAMP}, #{money,jdbcType=DOUBLE}, #{modified,jdbcType=TIMESTAMP}
       )
@@ -53,10 +53,10 @@
       <if test="localId != null">
         local_id,
       </if>
-      <if test="account.id != null">
+      <if test="account.localId != null">
         account_id,
       </if>
-      <if test="category.id != null">
+      <if test="category.localId != null">
         category_id,
       </if>
       <if test="userId != null">
@@ -82,11 +82,11 @@
       <if test="localId != null">
         #{localId,jdbcType=INTEGER},
       </if>
-      <if test="account.id != null">
-        #{account.id,jdbcType=INTEGER},
+      <if test="account.localId != null">
+        #{account.localId,jdbcType=INTEGER},
       </if>
-      <if test="category.id != null">
-        #{category.id,jdbcType=INTEGER},
+      <if test="category.localId != null">
+        #{category.localId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
@@ -217,10 +217,10 @@
                 modified = #{updated.modified,jdbcType=TIMESTAMP},
             </if>
             <if test="updated.account != null">
-                {userId=user_id,localId=local_id} = #{updated.account},
+                account_id=  #{updated.account.localId,jdbcType=INTEGER},
             </if>
             <if test="updated.category != null">
-                {userId=user_id,localId=local_id} = #{updated.category},
+                category_id = #{updated.category.localId,jdbcType=INTEGER},
             </if>
         </set>
         where local_id=#{localId,jdbcType=INTEGER} and user_id=#{userId,jdbcType=INTEGER}

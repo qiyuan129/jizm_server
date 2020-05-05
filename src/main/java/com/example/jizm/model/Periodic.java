@@ -46,6 +46,24 @@ public class Periodic {
 
     private transient Date anchor;
 
+    public Periodic(){
+    }
+    public Periodic(Integer id){
+        this.localId=id;
+    }
+
+    public Periodic(Integer localId, Integer accountId, Integer categoryId, Integer userId, Integer type, String name,
+                    int state, Date anchor) {
+        this.localId = localId;
+        this.accountId = accountId;
+        this.categoryId = categoryId;
+        this.userId = userId;
+        this.type = type;
+        this.name = name;
+        this.state = state;
+        this.anchor = anchor;
+    }
+
     public Integer getId() {
         return id;
     }
