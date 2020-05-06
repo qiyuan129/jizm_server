@@ -1,5 +1,6 @@
 package com.example.jizm.controller;
 
+import com.example.jizm.annotation.UserLoginToken;
 import com.example.jizm.config.BaseResult;
 import com.example.jizm.dao.BillMapper;
 import com.example.jizm.model.Bill;
@@ -35,11 +36,10 @@ public class BillController {
             @ApiImplicitParam(name="categoryId",value="账单类别id,不填写该参数值时将不分类别返回指定用户的所有账单；填-1返回当前登录" +
                     "用户的收入账单列表，填-2返回当前登录用户的支出账单列表", example = "1", dataType = "Int", paramType = "query")
     })
-    public BaseResult<List> getBills(@RequestHeader String token,
+    @UserLoginToken
+    public BaseResult<List> getBills(@RequestAttribute int userId,
                                      @RequestParam int categoryId){
-        //@TODO  待加入token验证
-        int userIdForTest=1;
-        List<Bill> billList=billService.getBillList(userIdForTest,categoryId);
+        List<Bill> billList=billService.getBillList(userId,categoryId);
         return BaseResult.successWithData(billList);
     }
 
@@ -51,9 +51,9 @@ public class BillController {
             @ApiImplicitParam(name="local_id",value="账单的local_id",required = true,dataType = "Int",example = "1",
                     paramType = "query")
     })
-    public BaseResult<Bill> getBill(@RequestHeader String token, @RequestParam int local_id){
-        int userIdForTest=1;
-        Bill bill=billMapper.selectByLocalIdAndUserId(local_id,userIdForTest);
+    @UserLoginToken
+    public BaseResult<Bill> getBill(@RequestAttribute int userId, @RequestParam int local_id){
+        Bill bill=billMapper.selectByLocalIdAndUserId(local_id,userId);
         return BaseResult.successWithData(bill);
     }
 
@@ -65,7 +65,7 @@ public class BillController {
             @ApiImplicitParam(name="bills",value="待上传的帐单列表",required = true,dataTypeClass =List.class,
                     paramType = "body")
     })
-    public BaseResult<String> uploadBills(int userId,@RequestBody List<Bill> bills){
+    public BaseResult<String> uploadBills(@RequestAttribute int userId,@RequestBody List<Bill> bills){
         billService.insertBillListFromWeb(bills,userId);
         return BaseResult.successWithData("批量上传账单成功！");
     }

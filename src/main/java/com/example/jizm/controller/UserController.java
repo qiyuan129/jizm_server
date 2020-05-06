@@ -57,11 +57,11 @@ public class UserController {
 
     }
 
-    @GetMapping("/message")
-    @UserLoginToken
-    public String getMessage(HttpServletRequest request){
-        return "Success"+getUserID(request);
-    }
+//    @GetMapping("/message")
+//    @UserLoginToken
+//    public String getMessage(HttpServletRequest request){
+//        return "Success"+getUserID(request);
+//    }
 
     @PostMapping("/user/registry")
     @ApiOperation(value="用户注册",notes="根据参数尝试注册新用户",protocols = "http")

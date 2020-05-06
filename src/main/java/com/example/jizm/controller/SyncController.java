@@ -36,10 +36,10 @@ public class SyncController {
                     paramType = "header")
     })
     @PostMapping("/app/synchronization")
-    public BaseResult<HashMap> processUpload(@RequestHeader String token, @RequestBody HashMap<String,SyncRecords> map){
-        //@TODO   这里用户登录状态验证可能有点小问题
+    @UserLoginToken
+    public BaseResult<HashMap> processUpload(@RequestBody HashMap<String,SyncRecords> map){
+        //  这里用户登录状态验证可能有点小问题
         syncService.processUploadRecords(map);
-        //syncService.updateUploadResult(map.get("Account"));
         return BaseResult.successWithData(map);
     }
 
@@ -51,7 +51,7 @@ public class SyncController {
             @ApiImplicitParam(name="map",value="各表的最新修改时间",required = true,dataType="HashMap",paramType = "body")
     })
     @UserLoginToken
-    public BaseResult<HashMap> processDownload(int userId, @RequestBody HashMap<String,Date> map){
+    public BaseResult<HashMap> processDownload(@RequestAttribute int userId, @RequestBody HashMap<String,Date> map){
         HashMap<String,SyncRecords> result=syncService.processDownloadRequest(map,userId);
         return BaseResult.successWithData(result);
     }
