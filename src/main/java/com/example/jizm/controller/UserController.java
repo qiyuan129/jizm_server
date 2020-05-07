@@ -1,15 +1,10 @@
 package com.example.jizm.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.auth0.jwt.JWT;
-import com.example.jizm.annotation.UserLoginToken;
-import com.example.jizm.config.BaseResult;
+import com.example.jizm.util.BaseResult;
 import com.example.jizm.dao.UserMapper;
-import com.example.jizm.model.User;
 import com.example.jizm.service.TokenService;
 import com.example.jizm.service.UserService;
 import io.swagger.annotations.*;
-import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

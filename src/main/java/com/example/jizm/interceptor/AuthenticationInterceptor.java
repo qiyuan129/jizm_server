@@ -9,6 +9,7 @@ import com.example.jizm.annotation.PassToken;
 import com.example.jizm.annotation.UserLoginToken;
 import com.example.jizm.model.User;
 import com.example.jizm.service.UserService;
+import com.example.jizm.util.BaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -43,25 +44,25 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (userLoginToken.required()) {
                 // 执行认证
                 if (token == null) {
-                    throw new RuntimeException("无token，请重新登录");
+                    throw new BaseException(401,"无token，请重新登录");
                 }
                 // 获取 token 中的 user id
                 String userId;
                 try {
                     userId = JWT.decode(token).getAudience().get(0);
                 } catch (JWTDecodeException j) {
-                    throw new RuntimeException("401");
+                    throw new BaseException(400,"解析token中的userId失败，可能发送了错误格式的token");
                 }
                 User user = userService.findUserById(Integer.parseInt(userId));
                 if (user == null) {
-                    throw new RuntimeException("用户不存在，请重新登录");
+                    throw new BaseException(400,"token中指定的用户不存在，请尝试重新登陆");
                 }
                 // 验证 token
                 JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(user.getPassword())).build();
                 try {
                     jwtVerifier.verify(token);
                 } catch (JWTVerificationException e) {
-                    throw new RuntimeException("验证已过期");
+                    throw new BaseException(410,"token验证已过期，请重新登录");
                 }
                 httpServletRequest.setAttribute("userId", user.getUserId());
                 return true;

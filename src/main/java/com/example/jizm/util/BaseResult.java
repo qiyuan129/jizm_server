@@ -1,4 +1,4 @@
-package com.example.jizm.config;
+package com.example.jizm.util;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

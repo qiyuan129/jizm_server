@@ -1,7 +1,7 @@
 package com.example.jizm.controller;
 
 import com.example.jizm.annotation.UserLoginToken;
-import com.example.jizm.config.BaseResult;
+import com.example.jizm.util.BaseResult;
 import com.example.jizm.dao.BillMapper;
 import com.example.jizm.model.Bill;
 import com.example.jizm.service.BillService;
@@ -9,13 +9,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Api(tags={"账单相关接口"},protocols = "http")

@@ -1,6 +1,6 @@
 package com.example.jizm.service;
 
-import com.example.jizm.config.BaseResult;
+import com.example.jizm.util.BaseResult;
 import com.example.jizm.dao.UserMapper;
 import com.example.jizm.model.User;
 import org.springframework.beans.factory.annotation.Autowired;

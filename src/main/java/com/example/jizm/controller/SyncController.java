@@ -1,9 +1,8 @@
 package com.example.jizm.controller;
 
 import com.example.jizm.annotation.UserLoginToken;
-import com.example.jizm.config.BaseResult;
+import com.example.jizm.util.BaseResult;
 import com.example.jizm.dao.AccountMapper;
-import com.example.jizm.model.Account;
 import com.example.jizm.model.Bill;
 import com.example.jizm.model.Category;
 import com.example.jizm.service.SyncService;
@@ -19,7 +18,6 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 @RestController
 @Api(tags={"同步相关接口"},protocols = "http")
