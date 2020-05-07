@@ -11,10 +11,7 @@ import com.example.jizm.service.UserService;
 import io.swagger.annotations.*;
 import org.apache.ibatis.jdbc.Null;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +47,7 @@ public class UserController {
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataTypeClass = String.class,
                     paramType = "body")
     })
-    public BaseResult<String> userLogin(int type,String account,String password){
+    public BaseResult<String> userLogin(@RequestBody int type,@RequestBody String account,@RequestBody String password){
         //@TODO
         //JSONObject jsonObject=new JSONObject();
         return userService.userLogin(type,account,password);

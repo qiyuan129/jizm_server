@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +38,7 @@ public class SyncController {
     })
     @PostMapping("/app/synchronization")
     @UserLoginToken
-    public BaseResult<HashMap> processUpload(@RequestBody HashMap<String,SyncRecords> map){
+    public BaseResult<HashMap<String,SyncRecords>> processUpload(@RequestBody HashMap<String,SyncRecords> map){
         //  这里用户登录状态验证可能有点小问题
         syncService.processUploadRecords(map);
         return BaseResult.successWithData(map);
@@ -51,7 +52,7 @@ public class SyncController {
             @ApiImplicitParam(name="map",value="各表的最新修改时间",required = true,dataType="HashMap",paramType = "body")
     })
     @UserLoginToken
-    public BaseResult<HashMap> processDownload(@RequestAttribute int userId, @RequestBody HashMap<String,Date> map){
+    public BaseResult<HashMap<String,SyncRecords>> processDownload(@RequestAttribute @ApiIgnore int userId, @RequestBody HashMap<String,Date> map){
         HashMap<String,SyncRecords> result=syncService.processDownloadRequest(map,userId);
         return BaseResult.successWithData(result);
     }

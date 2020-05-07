@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,7 @@ public class AccountController {
     @ApiImplicitParam(name="token",value="用户登录时获取的token",required = true,dataType="String",
             paramType = "header")
     @UserLoginToken
-    public BaseResult<List> getAccountList(@RequestAttribute int userId){
+    public BaseResult<List<Account>> getAccountList(@RequestAttribute @ApiIgnore int userId){
         List<Account> accountList=accountMapper.selectAllByUserId(userId);
 
         return BaseResult.successWithData(accountList);

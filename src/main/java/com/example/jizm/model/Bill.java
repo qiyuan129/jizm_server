@@ -21,7 +21,7 @@ public class Bill {
     @ApiModelProperty(value="")
     private Integer userId;
 
-    @ApiModelProperty(value="")
+    @ApiModelProperty(value="标记该条账单是收入还是支出，0为支出，1为收入")
     private Integer type;
 
     @ApiModelProperty(value="")

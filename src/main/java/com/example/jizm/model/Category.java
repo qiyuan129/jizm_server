@@ -18,7 +18,7 @@ public class Category {
     @ApiModelProperty(value="类别名")
     private String name;
 
-    @ApiModelProperty(value="标记该类别是收入类别还是支出类别,0为收入，1为支出")
+    @ApiModelProperty(value="标记该类别是收入类别还是支出类别,0为支出，1为收入")
     private Integer type;
 
     @ApiModelProperty(value="该记录在服务器端的上次修改时间")

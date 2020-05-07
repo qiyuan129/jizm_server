@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class BillController {
                     "用户的收入账单列表，填-2返回当前登录用户的支出账单列表", example = "1", dataType = "Int", paramType = "query")
     })
     @UserLoginToken
-    public BaseResult<List> getBills(@RequestAttribute int userId,
+    public BaseResult<List<Bill>> getBills(@RequestAttribute @ApiIgnore int userId,
                                      @RequestParam int categoryId){
         List<Bill> billList=billService.getBillList(userId,categoryId);
         return BaseResult.successWithData(billList);
@@ -52,7 +53,7 @@ public class BillController {
                     paramType = "query")
     })
     @UserLoginToken
-    public BaseResult<Bill> getBill(@RequestAttribute int userId, @RequestParam int local_id){
+    public BaseResult<Bill> getBill(@RequestAttribute @ApiIgnore int userId, @RequestParam int local_id){
         Bill bill=billMapper.selectByLocalIdAndUserId(local_id,userId);
         return BaseResult.successWithData(bill);
     }
@@ -65,7 +66,7 @@ public class BillController {
             @ApiImplicitParam(name="bills",value="待上传的帐单列表",required = true,dataTypeClass =List.class,
                     paramType = "body")
     })
-    public BaseResult<String> uploadBills(@RequestAttribute int userId,@RequestBody List<Bill> bills){
+    public BaseResult<String> uploadBills(@RequestAttribute @ApiIgnore int userId,@RequestBody List<Bill> bills){
         billService.insertBillListFromWeb(bills,userId);
         return BaseResult.successWithData("批量上传账单成功！");
     }
