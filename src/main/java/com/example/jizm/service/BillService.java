@@ -28,10 +28,10 @@ public class BillService {
         }
         else{
             if(categoryId==-1){
-                billList=billMapper.selectAllByUserIdAndType(userId,0);
+                billList=billMapper.selectAllByUserIdAndType(userId,1);
             }
             else if(categoryId==-2){
-                billList=billMapper.selectAllByUserIdAndType(userId,1);
+                billList=billMapper.selectAllByUserIdAndType(userId,0);
             }
             else{
                 //错误处理

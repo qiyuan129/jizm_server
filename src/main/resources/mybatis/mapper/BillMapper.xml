@@ -11,11 +11,11 @@
     <result column="money" jdbcType="DOUBLE" property="money" />
     <result column="modified" jdbcType="TIMESTAMP" property="modified" />
     <association property="account" javaType="com.example.jizm.model.Account"
-                 column="{userId=user_id,localId=local_id}"
+                 column="{userId=user_id,localId=account_id}"
                  select="com.example.jizm.dao.AccountMapper.selectByLocalIdAndUserId">
     </association>
     <association property="category" javaType="com.example.jizm.model.Category"
-                 column="{userId=user_id,localId=local_id}"
+                 column="{userId=user_id,localId=category_id}"
                  select="com.example.jizm.dao.CategoryMapper.selectByLocalIdAndUserId">
     </association>
   </resultMap>

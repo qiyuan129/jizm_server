@@ -41,13 +41,13 @@ public class UserController {
     @ApiOperation(value="用户登录",notes="根据输入的账户及密码尝试进行登录",protocols = "http")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "type", value = "登录方式：0为手机登录，1为用户名登录", required = true,example = "1",
-                    dataType = "Int", paramType = "body"),
+                    dataType = "Int", paramType = "form"),
             @ApiImplicitParam(name = "account", value = "用户账户，代表手机还是用户名由type参数决定", required = true,
-                    dataTypeClass = String.class,paramType = "body"),
+                    dataTypeClass = String.class,paramType = "form"),
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataTypeClass = String.class,
-                    paramType = "body")
+                    paramType = "form")
     })
-    public BaseResult<String> userLogin(@RequestBody int type,@RequestBody String account,@RequestBody String password){
+    public BaseResult<String> userLogin(int type,String account,String password){
         //@TODO
         //JSONObject jsonObject=new JSONObject();
         return userService.userLogin(type,account,password);
