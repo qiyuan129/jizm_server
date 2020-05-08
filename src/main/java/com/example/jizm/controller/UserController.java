@@ -5,7 +5,9 @@ import com.example.jizm.dao.UserMapper;
 import com.example.jizm.service.TokenService;
 import com.example.jizm.service.UserService;
 import io.swagger.annotations.*;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = {"用户相关接口"},protocols = "http")
 @RestController
+@Validated
 public class UserController {
     @Resource
     UserMapper userMapper;
@@ -42,9 +45,7 @@ public class UserController {
             @ApiImplicitParam(name = "password", value = "用户密码", required = true, dataTypeClass = String.class,
                     paramType = "form")
     })
-    public BaseResult<String> userLogin(int type,String account,String password){
-        //@TODO
-        //JSONObject jsonObject=new JSONObject();
+    public BaseResult<String> userLogin(@Range(min=0,max=1) int type, String account, String password){
         return userService.userLogin(type,account,password);
 
     }
@@ -72,10 +73,10 @@ public class UserController {
         return BaseResult.success();
     }
 
-    public Object getUserID(HttpServletRequest request){
-        if(request.getAttribute("userID")== null)
-            return  -1;
-        return request.getAttribute("userID");
-    }
+//    public Object getUserID(HttpServletRequest request){
+//        if(request.getAttribute("userID")== null)
+//            return  -1;
+//        return request.getAttribute("userID");
+//    }
 
 }

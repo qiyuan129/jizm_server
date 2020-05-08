@@ -8,6 +8,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.hibernate.validator.constraints.Range;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -16,6 +18,7 @@ import java.util.List;
 
 @RestController
 @Api(tags={"账单类别相关接口"},protocols = "http")
+@Validated
 public class CategoryController {
     @Resource
     CategoryMapper categoryMapper;
@@ -29,7 +32,8 @@ public class CategoryController {
                 dataType = "Int",example = "0",paramType = "query")
     })
     @UserLoginToken
-    public BaseResult<List<Category>> getCategoryList(@RequestAttribute @ApiIgnore int userId, @RequestParam int categoryType){
+    public BaseResult<List<Category>> getCategoryList(@RequestAttribute @ApiIgnore int userId,
+                                                      @RequestParam @Range(min=0,max=1) int categoryType){
         List<Category> categoryList=categoryMapper.selectByUserIdAndType(userId,categoryType);
         return BaseResult.successWithData(categoryList);
     }

@@ -10,15 +10,20 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Api(tags={"账单相关接口"},protocols = "http")
 @RestController
+@Validated
 public class BillController {
     @Resource
     BillMapper billMapper;
@@ -38,7 +43,7 @@ public class BillController {
     })
     @UserLoginToken
     public BaseResult<List<Bill>> getBills(@RequestAttribute @ApiIgnore int userId,
-                                     @RequestParam int categoryId){
+                                     @RequestParam  @Range(min=-2,max=Integer.MAX_VALUE) int categoryId){
         List<Bill> billList=billService.getBillList(userId,categoryId);
         return BaseResult.successWithData(billList);
     }
@@ -52,7 +57,8 @@ public class BillController {
                     paramType = "query")
     })
     @UserLoginToken
-    public BaseResult<Bill> getBill(@RequestAttribute @ApiIgnore int userId, @RequestParam int local_id){
+    public BaseResult<Bill> getBill(@RequestAttribute @ApiIgnore int userId,
+                                    @RequestParam @Positive int local_id){
         Bill bill=billMapper.selectByLocalIdAndUserId(local_id,userId);
         return BaseResult.successWithData(bill);
     }
@@ -65,7 +71,8 @@ public class BillController {
             @ApiImplicitParam(name="bills",value="待上传的帐单列表",required = true,dataTypeClass =List.class,
                     paramType = "body")
     })
-    public BaseResult<String> uploadBills(@RequestAttribute @ApiIgnore int userId,@RequestBody List<Bill> bills){
+    public BaseResult<String> uploadBills(@RequestAttribute @ApiIgnore int userId,
+                                          @RequestBody List<Bill> bills){
         billService.insertBillListFromWeb(bills,userId);
         return BaseResult.successWithData("批量上传账单成功！");
     }
