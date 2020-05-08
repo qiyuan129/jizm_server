@@ -23,6 +23,9 @@ public interface BillMapper {
 
     List<Bill> selectAllByCategoryIdAndUserId(@Param("categoryId")Integer categoryId, @Param("userId")Integer userId);
 
+    List<Bill> selectAllByCategoryIdAndUserIdOrderByMoneyDesc(@Param("category")Category category, @Param("userId")Integer userId);
+
+
     Bill selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
 
     List<Bill> selectAllByUserId(@Param("userId")Integer userId);
