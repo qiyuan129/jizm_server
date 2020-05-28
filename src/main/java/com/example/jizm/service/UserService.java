@@ -1,5 +1,6 @@
 package com.example.jizm.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.jizm.util.BaseResult;
 import com.example.jizm.dao.UserMapper;
 import com.example.jizm.model.User;
@@ -23,20 +24,32 @@ public class UserService {
     }
 
 
-    public BaseResult<String> userLogin(int type, String account, String password) {
+    public BaseResult userLogin(int type, String account, String password) {
         if(type==0){
             //手机登录
             User userForBase= findByPhone(account);
             if(userForBase==null){
-                return BaseResult.failWithCodeAndMsg(200,"账号不存在");
+                return BaseResult.failWithCodeAndMsg(404,"账号不存在");
             }
             else{
                 if (!userForBase.getPassword().equals(password)){
-                    return BaseResult.failWithCodeAndMsg(200,"密码错误");
+                    return BaseResult.failWithCodeAndMsg(401,"密码错误");
                 }
                 else {
                     String token = tokenService.getToken(userForBase);
-                    return BaseResult.successWithData(token);
+                    int userId=userForBase.getUserId();
+                    String userName=userForBase.getUserName();
+                    String phone=userForBase.getPhone();
+                    String email=userForBase.getEmail();
+
+                    JSONObject resultObject=new JSONObject();
+                    resultObject.put("token",token);
+                    resultObject.put("userId",userId);
+                    resultObject.put("userName",userName);
+                    resultObject.put("phone",phone);
+                    resultObject.put("email",email);
+
+                    return BaseResult.successWithData(resultObject);
                 }
             }
         }
@@ -44,15 +57,26 @@ public class UserService {
             //用户名登录
             User userForBase= findByUsername(account);
             if(userForBase==null){
-                return BaseResult.failWithCodeAndMsg(200,"账号不存在");
+                return BaseResult.failWithCodeAndMsg(404,"账号不存在");
             }
             else{
                 if (!userForBase.getPassword().equals(password)){
-                    return BaseResult.failWithCodeAndMsg(200,"密码错误");
+                    return BaseResult.failWithCodeAndMsg(401,"密码错误");
                 }
                 else {
                     String token = tokenService.getToken(userForBase);
-                    return BaseResult.successWithData(token);
+                    int userId=userForBase.getUserId();
+                    String userName=userForBase.getUserName();
+                    String phone=userForBase.getPhone();
+                    String email=userForBase.getEmail();
+
+                    JSONObject resultObject=new JSONObject();
+                    resultObject.put("token",token);
+                    resultObject.put("userId",userId);
+                    resultObject.put("userName",userName);
+                    resultObject.put("phone",phone);
+                    resultObject.put("email",email);
+                    return BaseResult.successWithData(resultObject);
 
                 }
             }
