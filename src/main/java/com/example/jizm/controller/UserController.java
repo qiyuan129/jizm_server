@@ -1,5 +1,6 @@
 package com.example.jizm.controller;
 
+import com.example.jizm.annotation.UserLoginToken;
 import com.example.jizm.util.BaseResult;
 import com.example.jizm.dao.UserMapper;
 import com.example.jizm.service.TokenService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Email;
 
 @Api(tags = {"用户相关接口"},protocols = "http")
 @RestController
@@ -78,5 +80,30 @@ public class UserController {
 //            return  -1;
 //        return request.getAttribute("userID");
 //    }
+
+    @PostMapping("/user/userName")
+    @ApiOperation(value="修改用户名",notes="根据参数修改对应用户的用户名",protocols = "http")
+    @UserLoginToken
+    public BaseResult<String> updateUserName(@RequestAttribute int userId,String userName){
+        userService.updateUserName(userName,userId);
+        return BaseResult.successWithData("修改用户名成功");
+    }
+
+    @PostMapping("/user/email")
+    @ApiOperation(value="修改邮箱",notes="根据参数修改对应用户的邮箱",protocols = "http")
+    @UserLoginToken
+    public BaseResult<String> updateEmail(@RequestAttribute int userId,@Email String email){
+        userService.updateUserEmail(email,userId);
+        return BaseResult.successWithData("修改用户邮箱地址成功");
+    }
+
+    @PostMapping("/user/phone")
+    @ApiOperation(value="修改用户的电话号码",notes="根据参数修改对应用户的电话号码",protocols = "http")
+    @UserLoginToken
+    public BaseResult<String> updatePhoneNumber(@RequestAttribute int userId,String phone){
+        userService.updateUserPhone(phone,userId);
+        return BaseResult.successWithData("修改用户电话号码成功");
+    }
+
 
 }

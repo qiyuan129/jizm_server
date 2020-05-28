@@ -82,4 +82,21 @@ public class UserService {
             }
         }
     }
+    public void updateUserName(String userName,int userId){
+        User user=userMapper.selectByPrimaryKey(userId);
+        user.setUserName(userName);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    public void updateUserEmail(String email,int userId){
+        User user=userMapper.selectByPrimaryKey(userId);
+        user.setEmail(email);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    public void updateUserPhone(String phone,int userId){
+        User user=userMapper.selectByPrimaryKey(userId);
+        user.setPhone(phone);
+        userMapper.updateByPrimaryKeySelective(user);
+    }
 }
