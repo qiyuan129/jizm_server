@@ -81,28 +81,14 @@ public class UserController {
 //        return request.getAttribute("userID");
 //    }
 
-    @PostMapping("/user/userName")
-    @ApiOperation(value="修改用户名",notes="根据参数修改对应用户的用户名",protocols = "http")
-    @UserLoginToken
-    public BaseResult<String> updateUserName(@RequestAttribute int userId,String userName){
-        userService.updateUserName(userName,userId);
-        return BaseResult.successWithData("修改用户名成功");
-    }
 
-    @PostMapping("/user/email")
-    @ApiOperation(value="修改邮箱",notes="根据参数修改对应用户的邮箱",protocols = "http")
-    @UserLoginToken
-    public BaseResult<String> updateEmail(@RequestAttribute int userId,@Email String email){
-        userService.updateUserEmail(email,userId);
-        return BaseResult.successWithData("修改用户邮箱地址成功");
-    }
 
-    @PostMapping("/user/phone")
+    @PostMapping("/user/information")
     @ApiOperation(value="修改用户的电话号码",notes="根据参数修改对应用户的电话号码",protocols = "http")
     @UserLoginToken
-    public BaseResult<String> updatePhoneNumber(@RequestAttribute int userId,String phone){
-        userService.updateUserPhone(phone,userId);
-        return BaseResult.successWithData("修改用户电话号码成功");
+    public BaseResult<String> updatePhoneNumber(@RequestAttribute int userId,String phone,String email,String userName){
+        userService.updateUserInfo(userId,userName,email,phone);
+        return BaseResult.successWithData("修改用户信息成功");
     }
 
 

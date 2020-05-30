@@ -42,7 +42,7 @@ public class SyncController {
         return BaseResult.successWithData(map);
     }
 
-    @GetMapping("/app/synchronization")
+    @PostMapping("/app/download")
     @ApiOperation(value="app请求从服务器端获取待同步记录",notes="根据app端发送的参数返回各表需要同步的记录",protocols = "http")
     @ApiImplicitParams({
             @ApiImplicitParam(name="token",value="用户登录时获取的token",required = true,dataType = "String",

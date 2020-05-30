@@ -27,6 +27,11 @@ public class SyncService {
     PeriodicMapper periodicMapper;
 
 
+    /**
+     * 处理用户上传的记录
+     * @param map
+     * @return
+     */
     @Transactional(rollbackFor = Exception.class)
     public HashMap<String,SyncRecords> processUploadRecords(HashMap<String,SyncRecords> map){
         //获取同步记录后，先用JsonUtil工具类中的方法把同步记录中recordList转换为正确的格式，再传给对应方法处理
@@ -56,6 +61,10 @@ public class SyncService {
         return map;
     }
 
+    /**
+     *处理用户上传的记录———账户部分
+     * @param accountSyncRecords
+     */
     @Transactional(rollbackFor = Exception.class)
     public void accountUpload(SyncRecords<Account> accountSyncRecords){
         if(accountSyncRecords.isNeedSync()==true){
@@ -89,6 +98,10 @@ public class SyncService {
         }
     }
 
+    /**
+     * 处理用户上传的记录————账单部分
+     * @param billSyncRecords
+     */
     public void billUpload(SyncRecords<Bill> billSyncRecords){
         if(billSyncRecords.isNeedSync()==true){
             List<Bill> bills=billSyncRecords.getRecordList();
@@ -119,6 +132,10 @@ public class SyncService {
         }
     }
 
+    /**
+     * 处理用户上传的记录————账单类别部分
+     * @param categorySyncRecords
+     */
     public void categoryUpload(SyncRecords<Category> categorySyncRecords){
         if(categorySyncRecords.isNeedSync()==true){
             List<Category> categories=categorySyncRecords.getRecordList();
@@ -142,6 +159,10 @@ public class SyncService {
 
     }
 
+    /**
+     * 处理用户上传的记录————周期事件部分
+     * @param periodicSyncRecords
+     */
     public void periodicUpload(SyncRecords<Periodic> periodicSyncRecords){
         if(periodicSyncRecords.isNeedSync()==true){
             List<Periodic> periodics=periodicSyncRecords.getRecordList();
@@ -164,6 +185,12 @@ public class SyncService {
         }
     }
 
+    /**
+     * 处理用户下载服务器需更新记录的请求
+     * @param map
+     * @param userId
+     * @return
+     */
     public HashMap<String, SyncRecords> processDownloadRequest(HashMap<String, Date> map,int userId){
         HashMap<String,SyncRecords> result=new HashMap<>();
 
