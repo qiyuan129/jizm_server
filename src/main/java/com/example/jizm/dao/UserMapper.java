@@ -1,8 +1,6 @@
 package com.example.jizm.dao;
-import org.apache.ibatis.annotations.Param;
-import java.util.List;
 
-import com.example.jizm.model.User;
+import com.example.jizm.model.User;import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
@@ -17,9 +15,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    User selectByUserName(@Param("userName")String userName);
+    User selectByUserName(@Param("userName") String userName);
 
-    User selectByPhone(@Param("phone")String phone);
-
-
+    User selectByPhone(@Param("phone") String phone);
 }

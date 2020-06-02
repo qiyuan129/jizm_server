@@ -6,6 +6,9 @@ import com.example.jizm.dao.UserMapper;
 import com.example.jizm.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
+
+import java.util.Random;
 
 @Service
 public class UserService {
@@ -32,7 +35,9 @@ public class UserService {
                 return BaseResult.failWithCodeAndMsg(404,"账号不存在");
             }
             else{
-                if (!userForBase.getPassword().equals(password)){
+                //获取给定密码加盐后md5的结果，并于数据库中加密过的密码比较
+                String md5GivenPassword=DigestUtils.md5DigestAsHex((password+userForBase.getRandom()).getBytes());
+                if (!userForBase.getPassword().equals(md5GivenPassword)){
                     return BaseResult.failWithCodeAndMsg(401,"密码错误");
                 }
                 else {
@@ -60,7 +65,9 @@ public class UserService {
                 return BaseResult.failWithCodeAndMsg(404,"账号不存在");
             }
             else{
-                if (!userForBase.getPassword().equals(password)){
+                //获取给定密码加盐后md5的结果，并于数据库中加密过的密码比较
+                String md5GivenPassword=DigestUtils.md5DigestAsHex((password+userForBase.getRandom()).getBytes());
+                if (!userForBase.getPassword().equals(md5GivenPassword)){
                     return BaseResult.failWithCodeAndMsg(401,"密码错误");
                 }
                 else {
@@ -89,5 +96,22 @@ public class UserService {
         user.setEmail(email);
         user.setPhone(phone);
         userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    public void registerUser(String userName,String phoneNumber,String email,String password){
+        User user=new User();
+        Random random=new Random();
+
+        int randomNumber=random.nextInt(Integer.MAX_VALUE);
+        String md5password=DigestUtils.md5DigestAsHex((password+randomNumber).getBytes());
+
+        user.setUserName(userName);
+        user.setPhone(phoneNumber);
+        user.setEmail(email);
+        user.setRandom(randomNumber);
+        user.setPassword(md5password);
+
+        userMapper.insertSelective(user);
+
     }
 }

@@ -67,12 +67,10 @@ public class UserController {
                     dataTypeClass = String.class,paramType = "body"),
             @ApiImplicitParam(name = "email", value = "用户邮箱", required = true, dataTypeClass = String.class,
                     paramType = "body"),
-            @ApiImplicitParam(name="validationCode",value="发起注册请求前获取的验证码",required = true,
-                    dataTypeClass = String.class, paramType = "body")
     })
-    public BaseResult<String> userRegister(String phoneNumber,String password,String email,String validationCode){
-        //@TODO
-        return BaseResult.success();
+    public BaseResult<String> userRegister(String phoneNumber,String password,String email,String userName){
+        userService.registerUser(userName,phoneNumber,email,password);
+        return BaseResult.successWithData("注册成功！");
     }
 
 //    public Object getUserID(HttpServletRequest request){

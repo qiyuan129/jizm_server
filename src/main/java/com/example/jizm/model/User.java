@@ -20,6 +20,9 @@ public class User {
     @ApiModelProperty(value = "用户密码（加密）")
     private String password;
 
+    @ApiModelProperty(value="")
+    private Integer random;
+
     public Integer getUserId() {
         return userId;
     }
@@ -60,6 +63,14 @@ public class User {
         this.password = password;
     }
 
+    public Integer getRandom() {
+        return random;
+    }
+
+    public void setRandom(Integer random) {
+        this.random = random;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -71,6 +82,7 @@ public class User {
         sb.append(", phone=").append(phone);
         sb.append(", email=").append(email);
         sb.append(", password=").append(password);
+        sb.append(", random=").append(random);
         sb.append("]");
         return sb.toString();
     }
