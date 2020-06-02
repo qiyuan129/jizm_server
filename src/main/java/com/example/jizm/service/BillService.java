@@ -134,6 +134,59 @@ public class BillService {
         }
         return resultObject;
     }
+
+    public JSONObject getAllBillsByMonthAndAccount(int userId,int specifiedYear,int accountId){
+        JSONObject resultObject=new JSONObject();
+        JSONArray incomeArray=new JSONArray();
+        JSONArray outcomeArray=new JSONArray();
+        List<Bill> incomeBillList=billMapper.selectAllByUserIdAndTypeAndAccount(userId,1,accountId);
+        List<Bill> outcomeBillList=billMapper.selectAllByUserIdAndTypeAndAccount(userId,0,accountId);
+
+        //初始化收入账单数组
+        for(int i=0;i<12;i++){
+            JSONArray monthJSONArray=new JSONArray();
+            incomeArray.add(monthJSONArray);
+        }
+
+        for(Bill bill:incomeBillList){
+            //获取账单所在月份（取值范围0~11）
+            Date billDate=bill.getDate();
+            Calendar billCalendar=Calendar.getInstance();
+            billCalendar.setTime(billDate);
+            int month=billCalendar.get(Calendar.MONTH);
+            int year=billCalendar.get(Calendar.YEAR);
+
+            if(year==specifiedYear){
+                JSONArray monthArray=incomeArray.getJSONArray(month);
+                monthArray.add(bill);
+            }
+        }
+
+        //初始化支出账单数组
+        for(int i=0;i<12;i++){
+            JSONArray monthJSONArray=new JSONArray();
+            outcomeArray.add(monthJSONArray);
+        }
+
+        for(Bill bill:outcomeBillList){
+            //获取账单所在月份（取值范围0~11）
+            Date billDate=bill.getDate();
+            Calendar billCalendar=Calendar.getInstance();
+            billCalendar.setTime(billDate);
+            int month=billCalendar.get(Calendar.MONTH);
+            int year=billCalendar.get(Calendar.YEAR);
+
+            if(year==specifiedYear){
+                JSONArray monthArray=outcomeArray.getJSONArray(month);
+                monthArray.add(bill);
+            }
+        }
+
+        resultObject.put("income",incomeArray);
+        resultObject.put("outcome",outcomeArray);
+
+        return resultObject;
+    }
 }
 
 

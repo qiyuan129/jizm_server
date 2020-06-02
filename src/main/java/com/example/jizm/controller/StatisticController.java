@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.constraints.Positive;
+
 @RestController
 @Validated
 @Api(tags={"报表相关接口"},protocols = "http")
@@ -25,8 +27,8 @@ public class StatisticController {
     @Autowired
     BillService billService;
 
-    @GetMapping("/web/statistic/byAccount")
-    @ApiOperation(value="返回报表所需的分账户收支统计")
+    @GetMapping("/web/statistic/byAllAccount")
+    @ApiOperation(value="返回报表所需的所有账户的分账户收支统计")
     @ApiImplicitParams({
             @ApiImplicitParam(name="token",value="用户登录时获取的token",required = true,dataType="String",
                     paramType = "header"),
@@ -51,6 +53,24 @@ public class StatisticController {
         JSONObject resultObject=billService.getStatisticByCategory(userId);
         return BaseResult.successWithData(resultObject);
     }
+
+    @GetMapping("/web/statistic/byAccount")
+    @ApiOperation(value="返回指定账户指定年份的各月账单")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="token",value="用户登录时获取的token",required = true,dataType = "String",
+                    paramType = "header"),
+            @ApiImplicitParam(name="year",value="指定的年份",required = true,dataType ="Int",paramType = "query"),
+            @ApiImplicitParam(name="accountId",value="要查询的账户（或者说“机构”）的id（当前支付宝的id为2）",dataType = "Int",
+                    paramType = "query")
+    })
+    @UserLoginToken
+    public BaseResult<JSONObject> getBillByAccountAndYear(@RequestAttribute @ApiIgnore int userId,
+                                                         @RequestParam @Range(min=2000,max=2100) int year,
+                                                         @RequestParam @Positive int accountId){
+        JSONObject resultObject=billService.getAllBillsByMonthAndAccount(userId,year,accountId);
+        return BaseResult.successWithData(resultObject);
+    }
+
 
 //    @GetMapping("/web/statistic/getJson")
 //    public BaseResult<JSONArray> getJson(){

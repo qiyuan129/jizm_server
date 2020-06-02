@@ -1,4 +1,5 @@
 package com.example.jizm.dao;
+import com.example.jizm.model.Account;
 import java.util.Date;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -24,6 +25,9 @@ public interface BillMapper {
     List<Bill> selectAllByCategoryIdAndUserId(@Param("categoryId")Integer categoryId, @Param("userId")Integer userId);
 
     List<Bill> selectAllByCategoryIdAndUserIdOrderByMoneyDesc(@Param("category")Category category, @Param("userId")Integer userId);
+
+    List<Bill> selectAllByUserIdAndTypeAndAccount(@Param("userId")Integer userId,@Param("type")Integer type,@Param("accountId")Integer accountId);
+
 
 
     Bill selectByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
