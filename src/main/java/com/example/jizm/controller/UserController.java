@@ -68,8 +68,8 @@ public class UserController {
             @ApiImplicitParam(name = "email", value = "用户邮箱", required = true, dataTypeClass = String.class,
                     paramType = "body"),
     })
-    public BaseResult<String> userRegister(String phoneNumber,String password,String email,String userName){
-        userService.registerUser(userName,phoneNumber,email,password);
+    public BaseResult<String> userRegister(String phoneNumber,String password,String userName){
+        userService.registerUser(userName,phoneNumber,password);
         return BaseResult.successWithData("注册成功！");
     }
 
@@ -82,12 +82,44 @@ public class UserController {
 
 
     @PostMapping("/user/information")
-    @ApiOperation(value="修改用户资料",notes="根据参数修改对应用户的用户资料",protocols = "http")
+    @ApiOperation(value="修改用户资料（一次性修改用户名、电话、邮箱）",notes="根据参数修改对应用户的用户资料",protocols = "http")
     @UserLoginToken
     public BaseResult<String> updateUserInfo(@RequestAttribute int userId, String phone, String email, String userName){
         userService.updateUserInfo(userId,userName,email,phone);
         return BaseResult.successWithData("修改用户信息成功");
     }
 
+    @PostMapping("/user/userName")
+    @ApiOperation(value="修改用户名",protocols = "http")
+    @UserLoginToken
+    public BaseResult<String> updateUserName(@RequestAttribute int userId,
+                                             String userName){
+        userService.updateUserName(userId,userName);
+        return BaseResult.successWithData("修改用户名成功");
+    }
 
+    @PostMapping("/user/phoneNumber")
+    @ApiOperation(value="修改用户电话",protocols = "http")
+    @UserLoginToken
+    public BaseResult<String> updatePhoneNumber(@RequestAttribute int userId,
+                                             String phoneNumber){
+        userService.updatePhoneNumber(userId,phoneNumber);
+        return BaseResult.successWithData("修改用户电话成功");
+    }
+
+    @PostMapping("/user/email")
+    @ApiOperation(value="修改用户邮箱",protocols = "http")
+    @UserLoginToken
+    public BaseResult<String> updateUserEmail(@RequestAttribute int userId,
+                                             String email){
+        userService.updateEmail(userId,email);
+        return BaseResult.successWithData("修改用户邮箱成功");
+    }
+
+    @PostMapping("/user/password/byOldPassword")
+    @UserLoginToken
+    public BaseResult<String> updatePassword(@RequestAttribute int userId,String oldPassword,String newPassword){
+        BaseResult<String> result=userService.updatePasswordByOldPassword(userId,oldPassword,newPassword);
+        return result;
+    }
 }

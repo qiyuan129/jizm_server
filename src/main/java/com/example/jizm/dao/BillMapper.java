@@ -10,6 +10,10 @@ import com.example.jizm.model.Bill;
 public interface BillMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
+
+
+
     int insert(Bill record);
 
     int insertSelective(Bill record);

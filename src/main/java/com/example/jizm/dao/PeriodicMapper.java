@@ -8,6 +8,10 @@ import com.example.jizm.model.Periodic;
 public interface PeriodicMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
+
+
+
     int insert(Periodic record);
 
     int insertSelective(Periodic record);

@@ -26,6 +26,7 @@ public class BillService {
     @Autowired
     AccountMapper accountMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     public List<Bill> getBillList(int userId,int categoryId){
         List<Bill> billList=null;
 
@@ -65,6 +66,7 @@ public class BillService {
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public JSONArray getYearStatisticByAccount(int userId,int type,int specifiedYear){
         List<Bill> billList=billMapper.selectAllByUserIdAndType(userId,type);
         List<Account> accountList=accountMapper.selectAllByUserId(userId);
@@ -103,6 +105,7 @@ public class BillService {
         return resultJsonArray;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public JSONObject getStatisticByCategory(int userId){
         JSONObject resultObject=new JSONObject();
         //查询支出的类别有哪些（type为0为支出）
@@ -135,6 +138,7 @@ public class BillService {
         return resultObject;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public JSONObject getAllBillsByMonthAndAccount(int userId,int specifiedYear,int accountId){
         JSONObject resultObject=new JSONObject();
         JSONArray incomeArray=new JSONArray();

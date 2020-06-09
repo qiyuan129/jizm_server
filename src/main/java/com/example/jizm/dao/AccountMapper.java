@@ -10,6 +10,10 @@ import java.util.List;
 public interface AccountMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
+
+
+
     int insert(Account record);
 
     int insertSelective(Account record);

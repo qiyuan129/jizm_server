@@ -8,6 +8,10 @@ import com.example.jizm.model.Category;
 public interface CategoryMapper {
     int deleteByPrimaryKey(Integer id);
 
+    int deleteByLocalIdAndUserId(@Param("localId")Integer localId,@Param("userId")Integer userId);
+
+
+
     int insert(Category record);
 
     int insertSelective(Category record);

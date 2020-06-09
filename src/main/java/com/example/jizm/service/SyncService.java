@@ -1,5 +1,8 @@
 package com.example.jizm.service;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.jizm.dao.AccountMapper;
 import com.example.jizm.dao.BillMapper;
 import com.example.jizm.dao.CategoryMapper;
@@ -86,14 +89,19 @@ public class SyncService {
                 }
                 //删除之后再写
                 else{
+                    accountMapper.deleteByLocalIdAndUserId(account.getLocalId(),account.getUserId());
                 }
             }
             //更新后再获取最新的数据，修改引用，之后返回给客户端
             for(int i=0;i<accounts.size();i++){
                 Account account=accounts.get(i);
-                Account newAccount=accountMapper.selectByLocalIdAndUserId(account.getLocalId(),account.getUserId());
-                //System.out.println(newAccount.toString());
-                accounts.set(i,newAccount);
+
+                //对于不是进行删除的上传记录进行更新
+                if(account.getState()!=-1) {
+                    Account newAccount = accountMapper.selectByLocalIdAndUserId(account.getLocalId(), account.getUserId());
+                    //System.out.println(newAccount.toString());
+                    accounts.set(i, newAccount);
+                }
             }
         }
     }
@@ -102,6 +110,7 @@ public class SyncService {
      * 处理用户上传的记录————账单部分
      * @param billSyncRecords
      */
+    @Transactional(rollbackFor = Exception.class)
     public void billUpload(SyncRecords<Bill> billSyncRecords){
         if(billSyncRecords.isNeedSync()==true){
             List<Bill> bills=billSyncRecords.getRecordList();
@@ -121,13 +130,17 @@ public class SyncService {
                 }
                 //删除之后再写
                 else{
+                    billMapper.deleteByLocalIdAndUserId(bill.getLocalId(),bill.getUserId());
                 }
             }
             //更新后再获取最新的数据，修改引用，之后返回给客户端
             for(int i=0;i<bills.size();i++){
                 Bill bill=bills.get(i);
-                Bill newBill=billMapper.selectByLocalIdAndUserId(bill.getLocalId(),bill.getUserId());
-                bills.set(i,newBill);
+
+                if(bill.getState()!=-1) {
+                    Bill newBill = billMapper.selectByLocalIdAndUserId(bill.getLocalId(), bill.getUserId());
+                    bills.set(i, newBill);
+                }
             }
         }
     }
@@ -136,6 +149,7 @@ public class SyncService {
      * 处理用户上传的记录————账单类别部分
      * @param categorySyncRecords
      */
+    @Transactional(rollbackFor = Exception.class)
     public void categoryUpload(SyncRecords<Category> categorySyncRecords){
         if(categorySyncRecords.isNeedSync()==true){
             List<Category> categories=categorySyncRecords.getRecordList();
@@ -148,12 +162,16 @@ public class SyncService {
                     categoryMapper.updateByLocalIdAndUserId(category,category.getLocalId(),category.getUserId());
                 }
                 else{
+                    categoryMapper.deleteByLocalIdAndUserId(category.getLocalId(),category.getUserId());
                 }
             }
             for(int i=0;i<categories.size();i++){
                 Category category=categories.get(i);
-                Category newCategory=categoryMapper.selectByLocalIdAndUserId(category.getLocalId(),category.getUserId());
-                categories.set(i,newCategory);
+
+                if(category.getState()!=-1) {
+                    Category newCategory = categoryMapper.selectByLocalIdAndUserId(category.getLocalId(), category.getUserId());
+                    categories.set(i, newCategory);
+                }
             }
         }
 
@@ -163,6 +181,7 @@ public class SyncService {
      * 处理用户上传的记录————周期事件部分
      * @param periodicSyncRecords
      */
+    @Transactional(rollbackFor = Exception.class)
     public void periodicUpload(SyncRecords<Periodic> periodicSyncRecords){
         if(periodicSyncRecords.isNeedSync()==true){
             List<Periodic> periodics=periodicSyncRecords.getRecordList();
@@ -175,12 +194,16 @@ public class SyncService {
                     periodicMapper.updateByLocalIdAndUserId(periodic,periodic.getLocalId(),periodic.getUserId());
                 }
                 else{
+                    periodicMapper.deleteByLocalIdAndUserId(periodic.getLocalId(),periodic.getUserId());
                 }
             }
             for(int i=0;i<periodics.size();i++){
                 Periodic periodic=periodics.get(i);
-                Periodic newPeriodic=periodicMapper.selectByLocalIdAndUserId(periodic.getLocalId(),periodic.getUserId());
-                periodics.set(i,newPeriodic);
+
+                if(periodic.getState()!=-1) {
+                    Periodic newPeriodic = periodicMapper.selectByLocalIdAndUserId(periodic.getLocalId(), periodic.getUserId());
+                    periodics.set(i, newPeriodic);
+                }
             }
         }
     }
@@ -191,6 +214,7 @@ public class SyncService {
      * @param userId
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     public HashMap<String, SyncRecords> processDownloadRequest(HashMap<String, Date> map,int userId){
         HashMap<String,SyncRecords> result=new HashMap<>();
 
@@ -206,6 +230,7 @@ public class SyncService {
         return result;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public SyncRecords<Account> accountDownload(Date date,int userId){
         SyncRecords<Account> accountSyncRecords=new SyncRecords<>();
         accountSyncRecords.setTableName("Account");
@@ -221,6 +246,8 @@ public class SyncService {
         }
         return accountSyncRecords;
     }
+
+    @Transactional(rollbackFor = Exception.class)
     public SyncRecords<Bill> billDownload(Date date,int userId){
         SyncRecords<Bill> billSyncRecords=new SyncRecords<>();
         billSyncRecords.setTableName(("Bill"));
@@ -236,6 +263,8 @@ public class SyncService {
         }
         return billSyncRecords;
     }
+
+    @Transactional(rollbackFor = Exception.class)
     public SyncRecords<Category> categoryDownload(Date date,int userId){
         SyncRecords<Category> categorySyncRecords=new SyncRecords<>();
         categorySyncRecords.setTableName("Category");
@@ -252,6 +281,7 @@ public class SyncService {
         return categorySyncRecords;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public SyncRecords<Periodic> periodicDownload(Date date,int userId){
         SyncRecords<Periodic> periodicSyncRecords=new SyncRecords<>();
         periodicSyncRecords.setTableName("Periodic");
@@ -268,4 +298,5 @@ public class SyncService {
         return periodicSyncRecords;
 
     }
+
 }
